@@ -3,454 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fatehin Alam | CSE Researcher & Developer</title>
+    <title>Fatehin Alam | Research & ML Engineer</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-
+    
     <style>
         :root {
-            --bg-dark: #0a0a0c;
-            --card-bg: #16161a;
-            --accent-glow: #64ffda;
-            --text-main: #e6f1ff;
-            --text-dim: #8892b0;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg: #050505;
+            --accent: #00f2ff;
+            --accent-dim: rgba(0, 242, 255, 0.1);
+            --text-high: #ffffff;
+            --text-low: #777777;
+            --card-bg: #0f0f0f;
+            --border: rgba(255, 255, 255, 0.08);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            scroll-behavior: smooth;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
         body {
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            line-height: 1.6;
+            background-color: var(--bg);
+            color: var(--text-high);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
         }
 
-        /* --- Custom Scrollbar --- */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-dark); }
-        ::-webkit-scrollbar-thumb { background: #232323; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent-glow); }
+        /* --- Interactive Background & Cursor --- */
+        #cursor-glow {
+            position: fixed;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        #custom-cursor {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            box-shadow: 0 0 15px var(--accent);
+        }
+
+        /* --- Global Sections --- */
+        section { min-height: 100vh; padding: 120px 10%; position: relative; z-index: 1; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* --- Navigation --- */
-        nav {
+        header {
             position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 10%;
+            top: 0; width: 100%;
+            padding: 30px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(10, 10, 12, 0.8);
-            backdrop-filter: blur(10px);
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
         }
 
-        .logo {
-            font-family: 'Fira Code', monospace;
-            font-weight: 800;
-            color: var(--accent-glow);
-            font-size: 1.2rem;
+        .logo { font-family: 'JetBrains Mono'; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
+
+        /* --- Hero --- */
+        .hero-title { font-size: clamp(3rem, 10vw, 7rem); font-weight: 800; line-height: 0.9; margin-bottom: 20px; }
+        .hero-tag { font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 20px; display: block; }
+
+        /* --- Interactive Terminal --- */
+        .terminal {
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            max-width: 800px;
+            margin: 50px 0;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
         }
 
-        .nav-links a {
-            color: var(--text-main);
-            text-decoration: none;
-            margin-left: 2rem;
-            font-size: 0.9rem;
-            font-weight: 500;
-            transition: var(--transition);
-        }
+        .term-header { background: #1a1a1a; padding: 12px 20px; display: flex; gap: 8px; }
+        .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .term-body { padding: 30px; color: #bbb; line-height: 1.8; }
+        .t-blue { color: var(--accent); }
+        .t-green { color: #27c93f; }
 
-        .nav-links a:hover { color: var(--accent-glow); }
-
-        /* --- Hero Section --- */
-        section { padding: 100px 10%; }
-
-        .hero {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: flex-start;
-        }
-
-        .hero span {
-            color: var(--accent-glow);
-            font-family: 'Fira Code', monospace;
-            margin-bottom: 1rem;
-        }
-
-        .hero h1 {
-            font-size: clamp(40px, 8vw, 80px);
-            font-weight: 800;
-            color: #ccd6f6;
-            line-height: 1.1;
-        }
-
-        .hero h2 {
-            font-size: clamp(30px, 5vw, 50px);
-            color: var(--text-dim);
-            margin-bottom: 2rem;
-        }
-
-        .hero p {
-            max-width: 600px;
-            color: var(--text-dim);
-            margin-bottom: 3rem;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: 1px solid var(--accent-glow);
-            color: var(--accent-glow);
-            text-decoration: none;
-            border-radius: 4px;
-            font-family: 'Fira Code', monospace;
-            transition: var(--transition);
-        }
-
-        .btn:hover { background: rgba(100, 255, 218, 0.1); }
-
-        /* --- Section Titles --- */
-        .section-title {
-            display: flex;
-            align-items: center;
-            font-size: 2rem;
-            margin-bottom: 40px;
-            color: #ccd6f6;
-        }
-
-        .section-title::after {
-            content: "";
-            height: 1px;
-            width: 300px;
-            background: rgba(255, 255, 255, 0.1);
-            margin-left: 20px;
-        }
-
-        /* --- Academic Stats Table --- */
-        .stats-container {
+        /* --- Project Gallery --- */
+        .project-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-            margin-top: 2rem;
-        }
-
-        .stat-card {
-            background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid transparent;
-            transition: var(--transition);
-        }
-
-        .stat-card:hover {
-            border-color: var(--accent-glow);
-            transform: translateY(-5px);
-        }
-
-        .stat-card h3 { color: var(--accent-glow); font-size: 2rem; }
-        .stat-card p { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; }
-
-        /* --- Projects Grid --- */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
         }
 
         .project-card {
             background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
-            position: relative;
-            transition: var(--transition);
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: 0.4s;
         }
 
         .project-card:hover {
+            border-color: var(--accent);
             transform: translateY(-10px);
-            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+            background: #151515;
         }
 
-        .project-card i {
-            font-size: 2rem;
-            color: var(--accent-glow);
-            margin-bottom: 1.5rem;
+        .project-img {
+            width: 100%;
+            height: 220px;
+            background: #222;
+            overflow: hidden;
+            position: relative;
         }
 
-        .project-card h4 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: #ccd6f6;
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: 0.5s;
         }
 
-        .project-card p {
-            font-size: 0.9rem;
-            color: var(--text-dim);
-            margin-bottom: 1.5rem;
-        }
+        .project-card:hover .project-img img { filter: grayscale(0%); transform: scale(1.05); }
 
-        .tech-tags {
-            font-family: 'Fira Code', monospace;
-            font-size: 0.75rem;
-            color: var(--accent-glow);
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
+        .project-info { padding: 30px; }
+        .project-info h3 { margin-bottom: 10px; font-size: 1.5rem; }
+        .project-info p { color: var(--text-low); font-size: 0.95rem; margin-bottom: 20px; }
+        .tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tag { font-family: 'JetBrains Mono'; font-size: 0.7rem; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 4px; }
 
-        /* --- Skills Section --- */
-        .skills-wrapper {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-        }
-
-        .skill-tag {
-            background: rgba(100, 255, 218, 0.05);
-            border: 1px solid rgba(100, 255, 218, 0.2);
-            padding: 8px 20px;
-            border-radius: 4px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.9rem;
-        }
-
-        /* --- Contact --- */
-        .contact-content {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
+        /* --- Social Bar --- */
         .social-links {
-            margin-top: 3rem;
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
             display: flex;
-            justify-content: center;
-            gap: 30px;
+            flex-direction: column;
+            gap: 25px;
+            z-index: 100;
         }
 
-        .social-links a {
-            font-size: 1.5rem;
-            color: var(--text-dim);
-            transition: var(--transition);
-        }
-
-        .social-links a:hover { color: var(--accent-glow); }
-
-        footer {
-            text-align: center;
-            padding: 40px;
-            font-family: 'Fira Code', monospace;
-            font-size: 0.8rem;
-            color: var(--text-dim);
-        }
+        .social-links a { color: var(--text-low); font-size: 1.2rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--accent); transform: translateY(-5px); }
 
         @media (max-width: 768px) {
-            section { padding: 60px 5%; }
-            .nav-links { display: none; }
-            .hero h1 { font-size: 40px; }
+            section { padding: 80px 5%; }
+            .social-links { flex-direction: row; left: 50%; transform: translateX(-50%); }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">FA_</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#academic">Academic</a>
-            <a href="#projects">Projects</a>
-            <a href="#skills">Skills</a>
-            <a href="#contact">Contact</a>
-        </div>
-    </nav>
+    <div id="cursor-glow"></div>
+    <div id="custom-cursor"></div>
 
-    <section class="hero">
-        <span data-aos="fade-up">Hi, my name is</span>
-        <h1 data-aos="fade-up" data-aos-delay="100">Fatehin Alam.</h1>
-        <h2 data-aos="fade-up" data-aos-delay="200">I build intelligent solutions.</h2>
-        <p data-aos="fade-up" data-aos-delay="300">
-            I am a Computer Science & Engineering undergraduate based in Chattogram, Bangladesh. 
-            Currently focusing on Machine Learning and high-performance applications, aiming for 
-            research breakthroughs in AI.
-        </p>
-        <a href="mailto:alamfatehin@gmail.com" class="btn" data-aos="fade-up" data-aos-delay="400">Get In Touch</a>
-    </section>
+    <header>
+        <div class="logo">FATEHIN.EXE</div>
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-low);">SYSTEM: ACTIVE</div>
+    </header>
 
-    <section id="about" data-aos="fade-up">
-        <h2 class="section-title">01. About Me</h2>
-        <div style="max-width: 800px;">
-            <p>I am a passionate researcher and developer deeply interested in how data can solve complex real-world problems. My goal is to pursue a <b>Master’s / PhD in Machine Learning</b> to contribute to the next generation of AI tools.</p>
-            <br>
-            <p>I specialize in Python-based ML research and full-stack development, often working with libraries like <b>NumPy, Pandas, and Scikit-learn</b> to analyze and model data.</p>
-        </div>
-    </section>
+    <div class="social-links">
+        <a href="https://github.com/Fatehin03" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://www.linkedin.com/in/alam-fatehin-4b1314396" target="_blank"><i class="fab fa-linkedin"></i></a>
+        <a href="https://x.com/AFatehin" target="_blank"><i class="fab fa-x-twitter"></i></a>
+        <a href="mailto:alamfatehin@gmail.com"><i class="far fa-envelope"></i></a>
+    </div>
 
-    <section id="academic" data-aos="fade-up">
-        <h2 class="section-title">02. Academic Track</h2>
-        <p>Current Undergraduate CGPA Performance:</p>
-        <div class="stats-container">
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
-                <p>1st Sem</p>
-                <h3>3.60</h3>
+    <section id="hero">
+        <span class="hero-tag reveal">> research_path: ML_&_DEVELOPMENT</span>
+        <h1 class="hero-title reveal">Fatehin Alam.</h1>
+        <h2 class="reveal" style="font-size: 2rem; color: var(--text-low); max-width: 700px;">
+            Solving complex problems through <span style="color: var(--text-high);">computational intelligence</span> and refined engineering.
+        </h2>
+
+        <div class="terminal reveal">
+            <div class="term-header">
+                <div class="term-dot" style="background: #ff5f56;"></div>
+                <div class="term-dot" style="background: #ffbd2e;"></div>
+                <div class="term-dot" style="background: #27c93f;"></div>
             </div>
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
-                <p>2nd Sem</p>
-                <h3>3.82</h3>
-            </div>
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
-                <p>3rd Sem</p>
-                <h3>4.00</h3>
-            </div>
-            <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
-                <p>4th Sem</p>
-                <h3>3.86</h3>
+            <div class="term-body">
+                <div><span class="t-blue">λ</span> fatehin.init()</div>
+                <div><span class="t-green">→</span> Status: Undergraduate Researcher</div>
+                <div><span class="t-green">→</span> Focus: Machine Learning, Data Analytics</div>
+                <div><span class="t-blue">λ</span> fatehin.skills</div>
+                <div><span class="t-green">→</span> [Python, Java, JS, NumPy, Scikit-learn, Odoo]</div>
+                <div><span class="t-blue">λ</span> <span style="border-left: 8px solid var(--accent); margin-left: 5px; animation: blink 1s infinite;"></span></div>
             </div>
         </div>
     </section>
 
     <section id="projects">
-        <h2 class="section-title" data-aos="fade-up">03. Featured Projects</h2>
-        <div class="projects-grid">
-            <div class="project-card" data-aos="fade-up">
-                <div>
-                    <i class="fa-solid fa-microchip"></i>
-                    <h4>Bug Fix AI</h4>
-                    <p>An intelligent code explainer and automated debugger designed to assist developers in understanding complex logic.</p>
+        <h2 class="reveal" style="font-family: 'JetBrains Mono'; font-size: 1rem; color: var(--accent); margin-bottom: 40px;">// FEATURED_LAB_WORK</h2>
+        
+        <div class="project-grid">
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" alt="Bug Fix AI">
                 </div>
-                <div class="tech-tags">
-                    <span>Python</span> <span>AI</span> <span>NLP</span>
-                </div>
-            </div>
-
-            <div class="project-card" data-aos="fade-up" data-aos-delay="100">
-                <div>
-                    <i class="fa-solid fa-book-quran"></i>
-                    <h4>Al-Quran App</h4>
-                    <p>A cross-platform Web & Mobile application featuring advanced search and recitation capabilities.</p>
-                </div>
-                <div class="tech-tags">
-                    <span>JS</span> <span>App Dev</span> <span>UI/UX</span>
+                <div class="project-info">
+                    <h3>Bug Fix AI</h3>
+                    <p>Automated debugger and code explainer utilizing Natural Language Processing to decode complex logic.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span><span class="tag">AI</span><span class="tag">Research</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
-                <div>
-                    <i class="fa-solid fa-calendar-check"></i>
-                    <h4>Smart Scheduler</h4>
-                    <p>Academic scheduling tool that optimizes study hours and exam preparation using priority algorithms.</p>
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Al-Quran App">
                 </div>
-                <div class="tech-tags">
-                    <span>Java</span> <span>Optimization</span>
-                </div>
-            </div>
-
-            <div class="project-card" data-aos="fade-up">
-                <div>
-                    <i class="fa-solid fa-camera"></i>
-                    <h4>Cinematic Camera</h4>
-                    <p>A camera interface application focusing on high-end post-processing styles similar to Pixel/iPhone.</p>
-                </div>
-                <div class="tech-tags">
-                    <span>App Dev</span> <span>Image Processing</span>
+                <div class="project-info">
+                    <h3>Al-Quran Digital</h3>
+                    <p>Cross-platform application developed for seamless scripture access with high-fidelity UI.</p>
+                    <div class="tags">
+                        <span class="tag">Mobile</span><span class="tag">JS</span><span class="tag">UI/UX</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="project-card" data-aos="fade-up" data-aos-delay="100">
-                <div>
-                    <i class="fa-solid fa-map-location-dot"></i>
-                    <h4>True Map</h4>
-                    <p>A specialized mapping application focused on humanitarian geographical data for Palestine.</p>
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Smart Scheduler">
                 </div>
-                <div class="tech-tags">
-                    <span>GeoJSON</span> <span>Web Dev</span>
+                <div class="project-info">
+                    <h3>Smart Scheduler</h3>
+                    <p>Algorithm-driven optimization tool for managing complex academic timelines and study sessions.</p>
+                    <div class="tags">
+                        <span class="tag">Algorithms</span><span class="tag">Java</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
-                <div>
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <h4>E-commerce Web</h4>
-                    <p>A lightweight, high-performance shopping platform built entirely with vanilla technologies.</p>
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80" alt="Cinematic Camera">
                 </div>
-                <div class="tech-tags">
-                    <span>HTML5</span> <span>CSS3</span> <span>JS</span>
+                <div class="project-info">
+                    <h3>Cinematic Camera</h3>
+                    <p>Computational photography application mimicking high-end smartphone camera processing.</p>
+                    <div class="tags">
+                        <span class="tag">App Dev</span><span class="tag">Vision</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80" alt="True Map">
+                </div>
+                <div class="project-info">
+                    <h3>True Map</h3>
+                    <p>Mapping utility for humanitarian data visualization, focused on the Palestine region.</p>
+                    <div class="tags">
+                        <span class="tag">Geospatial</span><span class="tag">Web</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80" alt="E-commerce">
+                </div>
+                <div class="project-info">
+                    <h3>E-commerce Core</h3>
+                    <p>Ultra-lightweight commerce engine built with vanilla technologies for maximum performance.</p>
+                    <div class="tags">
+                        <span class="tag">Vanilla JS</span><span class="tag">HTML/CSS</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="skills" data-aos="fade-up">
-        <h2 class="section-title">04. Technical Skills</h2>
-        <div style="margin-bottom: 2rem;">
-            <p style="color: var(--accent-glow); margin-bottom: 1rem; font-family: 'Fira Code';">Languages & Web</p>
-            <div class="skills-wrapper">
-                <div class="skill-tag">Python</div>
-                <div class="skill-tag">Java</div>
-                <div class="skill-tag">JavaScript</div>
-                <div class="skill-tag">HTML/CSS</div>
-            </div>
-        </div>
-        <div style="margin-bottom: 2rem;">
-            <p style="color: var(--accent-glow); margin-bottom: 1rem; font-family: 'Fira Code';">AI / Research</p>
-            <div class="skills-wrapper">
-                <div class="skill-tag">Machine Learning</div>
-                <div class="skill-tag">NumPy</div>
-                <div class="skill-tag">Pandas</div>
-                <div class="skill-tag">Scikit-learn</div>
-                <div class="skill-tag">Data Analysis</div>
-            </div>
-        </div>
-        <div>
-            <p style="color: var(--accent-glow); margin-bottom: 1rem; font-family: 'Fira Code';">Tools</p>
-            <div class="skills-wrapper">
-                <div class="skill-tag">GitHub</div>
-                <div class="skill-tag">NetBeans</div>
-                <div class="skill-tag">Odoo</div>
-            </div>
+    <section id="contact" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+        <div class="reveal">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">Let's discuss research.</h1>
+            <p style="color: var(--text-low); margin-bottom: 40px;">Currently open for collaborations in Machine Learning and AI Research.</p>
+            <a href="mailto:alamfatehin@gmail.com" style="text-decoration: none; color: var(--accent); border: 1px solid var(--accent); padding: 15px 40px; border-radius: 5px; font-family: 'JetBrains Mono'; transition: 0.3s;">
+                GET_IN_TOUCH
+            </a>
         </div>
     </section>
 
-    <section id="contact" data-aos="fade-up">
-        <div class="contact-content">
-            <h2 class="section-title" style="justify-content: center;">05. Get In Touch</h2>
-            <p>I am currently looking for research opportunities and collaborations in AI/ML. My inbox is always open.</p>
-            <br>
-            <a href="mailto:alamfatehin@gmail.com" class="btn">Say Hello</a>
-
-            <div class="social-links">
-                <a href="https://github.com/Fatehin03" target="_blank"><i class="fa-brands fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/alam-fatehin-4b1314396" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
-                <a href="https://x.com/AFatehin" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
-            </div>
-        </div>
-    </section>
-
-    <footer>
-        Designed & Built by Fatehin Alam &copy; 2026
+    <footer style="padding: 40px 10%; text-align: center; font-size: 0.7rem; color: #333; font-family: 'JetBrains Mono';">
+        &copy; 2026 FATEHIN ALAM // CHATTOGRAM, BD
     </footer>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({
-            duration: 800,
-            once: true,
-            easing: 'ease-out-quad'
+        // Cursor Logic
+        const glow = document.getElementById('cursor-glow');
+        const cursor = document.getElementById('custom-cursor');
+
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
+
+        // Scroll Animation Logic
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+
+        window.addEventListener("scroll", reveal);
+        reveal(); // Initial call
     </script>
 </body>
-              </html>
+                    </html>
