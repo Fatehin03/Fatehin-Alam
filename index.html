@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fatehin Alam | CSE Researcher & Developer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-dark: #0a0a0c;
+            --card-bg: #16161a;
+            --accent-glow: #64ffda;
+            --text-main: #e6f1ff;
+            --text-dim: #8892b0;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- Custom Scrollbar --- */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #232323; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent-glow); }
+
+        /* --- Navigation --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 12, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .logo {
+            font-family: 'Fira Code', monospace;
+            font-weight: 800;
+            color: var(--accent-glow);
+            font-size: 1.2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover { color: var(--accent-glow); }
+
+        /* --- Hero Section --- */
+        section { padding: 100px 10%; }
+
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .hero span {
+            color: var(--accent-glow);
+            font-family: 'Fira Code', monospace;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 80px);
+            font-weight: 800;
+            color: #ccd6f6;
+            line-height: 1.1;
+        }
+
+        .hero h2 {
+            font-size: clamp(30px, 5vw, 50px);
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            max-width: 600px;
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: 1px solid var(--accent-glow);
+            color: var(--accent-glow);
+            text-decoration: none;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            transition: var(--transition);
+        }
+
+        .btn:hover { background: rgba(100, 255, 218, 0.1); }
+
+        /* --- Section Titles --- */
+        .section-title {
+            display: flex;
+            align-items: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: #ccd6f6;
+        }
+
+        .section-title::after {
+            content: "";
+            height: 1px;
+            width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-left: 20px;
+        }
+
+        /* --- Academic Stats Table --- */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 2rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: var(--accent-glow);
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 { color: var(--accent-glow); font-size: 2rem; }
+        .stat-card p { color: var(--text-dim); font-size: 0.8rem; text-transform: uppercase; }
+
+        /* --- Projects Grid --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px -15px rgba(2, 12, 27, 0.7);
+        }
+
+        .project-card i {
+            font-size: 2rem;
+            color: var(--accent-glow);
+            margin-bottom: 1.5rem;
+        }
+
+        .project-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ccd6f6;
+        }
+
+        .project-card p {
+            font-size: 0.9rem;
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tags {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-glow);
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* --- Skills Section --- */
+        .skills-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .skill-tag {
+            background: rgba(100, 255, 218, 0.05);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* --- Contact --- */
+        .contact-content {
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .social-links {
+            margin-top: 3rem;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .social-links a {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover { color: var(--accent-glow); }
+
+        footer {
+            text-align: center;
+            padding: 40px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 768px) {
+            section { padding: 60px 5%; }
+            .nav-links { display: none; }
+            .hero h1 { font-size: 40px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">FA_</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#academic">Academic</a>
+            <a href="#projects">Projects</a>
+            <a href="#skills">Skills</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <span data-aos="fade-up">Hi, my name is</span>
+        <h1 data-aos="fade-up" data-aos-delay="100">Fatehin Alam.</h1>
+        <h2 data-aos="fade-up" data-aos-delay="200">I build intelligent solutions.</h2>
+        <p data-aos="fade-up" data-aos-delay="300">
+            I am a Computer Science & Engineering undergraduate based in Chattogram, Bangladesh. 
+            Currently focusing on Machine Learning and high-performance applications, aiming for 
+            research breakthroughs in AI.
+        </p>
+        <a href="mailto:alamfatehin@gmail.com" class="btn" data-aos="fade-up" data-aos-delay="400">Get In Touch</a>
+    </section>
+
+    <section id="about" data-aos="fade-up">
+        <h2 class="section-title">01. About Me</h2>
+        <div style="max-width: 800px;">
+            <p>I am a passionate researcher and developer deeply interested in how data can solve complex real-world problems. My goal is to pursue a <b>Master’s / PhD in Machine Learning</b> to contribute to the next generation of AI tools.</p>
+            <br>
+            <p>I specialize in Python-based ML research and full-stack development, often working with libraries like <b>NumPy, Pandas, and Scikit-learn</b> to analyze and model data.</p>
+        </div>
+    </section>
+
+    <section id="academic" data-aos="fade-up">
+        <h2 class="section-title">02. Academic Track</h2>
+        <p>Current Undergraduate CGPA Performance:</p>
+        <div class="stats-container">
+            <div class="stat-card" data-aos="zoom-in" data-aos-delay="100">
+                <p>1st Sem</p>
+                <h3>3.60</h3>
+            </div>
+            <div class="stat-card" data-aos="zoom-in" data-aos-delay="200">
+                <p>2nd Sem</p>
+                <h3>3.82</h3>
+            </div>
+            <div class="stat-card" data-aos="zoom-in" data-aos-delay="300">
+                <p>3rd Sem</p>
+                <h3>4.00</h3>
+            </div>
+            <div class="stat-card" data-aos="zoom-in" data-aos-delay="400">
+                <p>4th Sem</p>
+                <h3>3.86</h3>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <h2 class="section-title" data-aos="fade-up">03. Featured Projects</h2>
+        <div class="projects-grid">
+            <div class="project-card" data-aos="fade-up">
+                <div>
+                    <i class="fa-solid fa-microchip"></i>
+                    <h4>Bug Fix AI</h4>
+                    <p>An intelligent code explainer and automated debugger designed to assist developers in understanding complex logic.</p>
+                </div>
+                <div class="tech-tags">
+                    <span>Python</span> <span>AI</span> <span>NLP</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                <div>
+                    <i class="fa-solid fa-book-quran"></i>
+                    <h4>Al-Quran App</h4>
+                    <p>A cross-platform Web & Mobile application featuring advanced search and recitation capabilities.</p>
+                </div>
+                <div class="tech-tags">
+                    <span>JS</span> <span>App Dev</span> <span>UI/UX</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                <div>
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <h4>Smart Scheduler</h4>
+                    <p>Academic scheduling tool that optimizes study hours and exam preparation using priority algorithms.</p>
+                </div>
+                <div class="tech-tags">
+                    <span>Java</span> <span>Optimization</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-aos="fade-up">
+                <div>
+                    <i class="fa-solid fa-camera"></i>
+                    <h4>Cinematic Camera</h4>
+                    <p>A camera interface application focusing on high-end post-processing styles similar to Pixel/iPhone.</p>
+                </div>
+                <div class="tech-tags">
+                    <span>App Dev</span> <span>Image Processing</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-aos="fade-up" data-aos-delay="100">
+                <div>
+                    <i class="fa-solid fa-map-location-dot"></i>
+                    <h4>True Map</h4>
+                    <p>A specialized mapping application focused on humanitarian geographical data for Palestine.</p>
+                </div>
+                <div class="tech-tags">
+                    <span>GeoJSON</span> <span>Web Dev</span>
+                </div>
+            </div>
+
+            <div class="project-card" data-aos="fade-up" data-aos-delay="200">
+                <div>
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <h4>E-commerce Web</h4>
+                    <p>A lightweight, high-performance shopping platform built entirely with vanilla technologies.</p>
+                </div>
+                <div class="tech-tags">
+                    <span>HTML5</span> <span>CSS3</span> <span>JS</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" data-aos="fade-up">
+        <h2 class="section-title">04. Technical Skills</h2>
+        <div style="margin-bottom: 2rem;">
+            <p style="color: var(--accent-glow); margin-bottom: 1rem; font-family: 'Fira Code';">Languages & Web</p>
+            <div class="skills-wrapper">
+                <div class="skill-tag">Python</div>
+                <div class="skill-tag">Java</div>
+                <div class="skill-tag">JavaScript</div>
+                <div class="skill-tag">HTML/CSS</div>
+            </div>
+        </div>
+        <div style="margin-bottom: 2rem;">
+            <p style="color: var(--accent-glow); margin-bottom: 1rem; font-family: 'Fira Code';">AI / Research</p>
+            <div class="skills-wrapper">
+                <div class="skill-tag">Machine Learning</div>
+                <div class="skill-tag">NumPy</div>
+                <div class="skill-tag">Pandas</div>
+                <div class="skill-tag">Scikit-learn</div>
+                <div class="skill-tag">Data Analysis</div>
+            </div>
+        </div>
+        <div>
+            <p style="color: var(--accent-glow); margin-bottom: 1rem; font-family: 'Fira Code';">Tools</p>
+            <div class="skills-wrapper">
+                <div class="skill-tag">GitHub</div>
+                <div class="skill-tag">NetBeans</div>
+                <div class="skill-tag">Odoo</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" data-aos="fade-up">
+        <div class="contact-content">
+            <h2 class="section-title" style="justify-content: center;">05. Get In Touch</h2>
+            <p>I am currently looking for research opportunities and collaborations in AI/ML. My inbox is always open.</p>
+            <br>
+            <a href="mailto:alamfatehin@gmail.com" class="btn">Say Hello</a>
+
+            <div class="social-links">
+                <a href="https://github.com/Fatehin03" target="_blank"><i class="fa-brands fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/alam-fatehin-4b1314396" target="_blank"><i class="fa-brands fa-linkedin"></i></a>
+                <a href="https://x.com/AFatehin" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        Designed & Built by Fatehin Alam &copy; 2026
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800,
+            once: true,
+            easing: 'ease-out-quad'
+        });
+    </script>
+</body>
+              </html>
