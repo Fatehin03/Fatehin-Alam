@@ -3,330 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fatehin Alam</title>
+    <title>Fatehin Alam | Research & ML Engineer</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
         :root {
-            --bg: #010103;
+            --bg: #050505;
             --accent: #00f2ff;
-            --accent-glow: rgba(0, 242, 255, 0.4);
-            --surface: rgba(255, 255, 255, 0.02);
+            --accent-dim: rgba(0, 242, 255, 0.1);
+            --text-high: #ffffff;
+            --text-low: #777777;
+            --card-bg: #0f0f0f;
             --border: rgba(255, 255, 255, 0.08);
-            --text: #ffffff;
-            --text-dim: #888888;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; cursor: none; }
-        
         body {
             background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Space Grotesk', sans-serif;
+            color: var(--text-high);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow-x: hidden;
-            background: radial-gradient(circle at center, #0a0a1a 0%, #010103 100%);
         }
 
-        /* --- Canvas Background --- */
-        #neural-canvas {
+        /* --- Interactive Background & Cursor --- */
+        #cursor-glow {
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: 0;
-            pointer-events: none;
-            opacity: 0.6;
-        }
-
-        /* --- Custom Cursor --- */
-        #cursor-ring {
-            position: fixed;
-            width: 40px; height: 40px;
-            border: 1px solid var(--accent);
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, var(--accent-dim) 0%, transparent 70%);
             border-radius: 50%;
             pointer-events: none;
-            z-index: 9999;
-            transition: transform 0.1s ease-out;
             transform: translate(-50%, -50%);
+            z-index: 0;
         }
 
-        #cursor-dot {
+        #custom-cursor {
             position: fixed;
-            width: 4px; height: 4px;
+            width: 8px;
+            height: 8px;
             background: var(--accent);
             border-radius: 50%;
             pointer-events: none;
             z-index: 9999;
-            transform: translate(-50%, -50%);
-            box-shadow: 0 0 10px var(--accent);
+            box-shadow: 0 0 15px var(--accent);
         }
 
+        /* --- Global Sections --- */
+        section { min-height: 100vh; padding: 120px 10%; position: relative; z-index: 1; }
+        .reveal { opacity: 0; transform: translateY(40px); transition: 1s cubic-bezier(0.2, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
         /* --- Navigation --- */
-        nav {
+        header {
             position: fixed;
             top: 0; width: 100%;
-            padding: 2rem 10%;
+            padding: 30px 10%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 100;
-            mix-blend-mode: difference;
-        }
-
-        .logo { font-family: 'JetBrains Mono'; font-weight: 700; font-size: 1.2rem; color: var(--accent); }
-
-        /* --- Hero --- */
-        section { min-height: 100vh; padding: 100px 10%; position: relative; z-index: 1; display: flex; align-items: center; }
-
-        .hero-title {
-            font-size: clamp(4rem, 15vw, 10rem);
-            font-weight: 700;
-            line-height: 0.85;
-            letter-spacing: -5px;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .hero-title span { color: transparent; -webkit-text-stroke: 1px var(--text); }
-
-        /* --- 3D Project Cards --- */
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            width: 100%;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            height: 450px;
-            border-radius: 20px;
-            position: relative;
-            perspective: 1000px;
-            overflow: hidden;
-            transition: border 0.3s;
-        }
-
-        .card:hover { border-color: var(--accent); }
-
-        .card-inner {
-            padding: 3rem;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            transform-style: preserve-3d;
-            transition: transform 0.1s ease;
-        }
-
-        .card h3 { 
-            font-size: 2rem; 
-            margin-bottom: 1rem; 
-            transform: translateZ(50px); 
-        }
-
-        .card p { 
-            color: var(--text-dim); 
-            font-size: 0.9rem; 
-            transform: translateZ(30px); 
-        }
-
-        /* --- Terminal Section --- */
-        .terminal {
-            background: rgba(0,0,0,0.8);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 2rem;
-            font-family: 'JetBrains Mono', monospace;
-            max-width: 600px;
-            margin-top: 2rem;
+            z-index: 1000;
             backdrop-filter: blur(10px);
         }
 
-        /* --- Socials --- */
-        .socials {
+        .logo { font-family: 'JetBrains Mono'; font-weight: 800; color: var(--accent); letter-spacing: -1px; }
+
+        /* --- Hero --- */
+        .hero-title { font-size: clamp(3rem, 10vw, 7rem); font-weight: 800; line-height: 0.9; margin-bottom: 20px; }
+        .hero-tag { font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 20px; display: block; }
+
+        /* --- Interactive Terminal --- */
+        .terminal {
+            background: #0a0a0a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            font-family: 'JetBrains Mono', monospace;
+            max-width: 800px;
+            margin: 50px 0;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+        }
+
+        .term-header { background: #1a1a1a; padding: 12px 20px; display: flex; gap: 8px; }
+        .term-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .term-body { padding: 30px; color: #bbb; line-height: 1.8; }
+        .t-blue { color: var(--accent); }
+        .t-green { color: #27c93f; }
+
+        /* --- Project Gallery --- */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-10px);
+            background: #151515;
+        }
+
+        .project-img {
+            width: 100%;
+            height: 220px;
+            background: #222;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .project-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: 0.5s;
+        }
+
+        .project-card:hover .project-img img { filter: grayscale(0%); transform: scale(1.05); }
+
+        .project-info { padding: 30px; }
+        .project-info h3 { margin-bottom: 10px; font-size: 1.5rem; }
+        .project-info p { color: var(--text-low); font-size: 0.95rem; margin-bottom: 20px; }
+        .tags { display: flex; gap: 10px; flex-wrap: wrap; }
+        .tag { font-family: 'JetBrains Mono'; font-size: 0.7rem; background: rgba(255,255,255,0.05); padding: 5px 12px; border-radius: 4px; }
+
+        /* --- Social Bar --- */
+        .social-links {
             position: fixed;
-            right: 40px;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: 40px;
+            left: 40px;
             display: flex;
             flex-direction: column;
-            gap: 2rem;
+            gap: 25px;
             z-index: 100;
         }
 
-        .socials a { color: var(--text-dim); font-size: 1.2rem; transition: 0.3s; }
-        .socials a:hover { color: var(--accent); transform: scale(1.2) rotate(10deg); }
+        .social-links a { color: var(--text-low); font-size: 1.2rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--accent); transform: translateY(-5px); }
 
-        .reveal { opacity: 0; transform: translateY(30px); transition: 1s ease-out; }
-        .reveal.active { opacity: 1; transform: translateY(0); }
-
+        @media (max-width: 768px) {
+            section { padding: 80px 5%; }
+            .social-links { flex-direction: row; left: 50%; transform: translateX(-50%); }
+        }
     </style>
 </head>
 <body>
 
-    <canvas id="neural-canvas"></canvas>
-    <div id="cursor-ring"></div>
-    <div id="cursor-dot"></div>
+    <div id="cursor-glow"></div>
+    <div id="custom-cursor"></div>
 
-    <nav>
-        <div class="logo">FATEHIN_03</div>
-        <div style="font-family: 'JetBrains Mono'; font-size: 0.8rem;">[SYS_ID: 100226]</div>
-    </nav>
+    <header>
+        <div class="logo">FATEHIN.EXE</div>
+        <div style="font-family: 'JetBrains Mono'; font-size: 0.7rem; color: var(--text-low);">SYSTEM: ACTIVE</div>
+    </header>
 
-    <div class="socials">
+    <div class="social-links">
         <a href="https://github.com/Fatehin03" target="_blank"><i class="fab fa-github"></i></a>
         <a href="https://www.linkedin.com/in/alam-fatehin-4b1314396" target="_blank"><i class="fab fa-linkedin"></i></a>
         <a href="https://x.com/AFatehin" target="_blank"><i class="fab fa-x-twitter"></i></a>
         <a href="mailto:alamfatehin@gmail.com"><i class="far fa-envelope"></i></a>
     </div>
 
-    <section>
-        <div>
-            <p class="reveal" style="font-family: 'JetBrains Mono'; color: var(--accent); margin-bottom: 1rem;">// NEURAL_SYSTEMS_RESEARCHER</p>
-            <h1 class="hero-title reveal">FATEHIN<br><span>ALAM</span></h1>
-            
-            <div class="terminal reveal">
-                <p style="color: var(--accent);">λ fatehin --init</p>
-                <p style="color: #555;">> Processing research nodes...</p>
-                <p>> Domain: Machine Learning & Full-Stack</p>
-                <p>> Location: Chattogram, Bangladesh</p>
-                <p style="color: var(--accent);">λ fatehin --skills [Python, Java, JS, ML]</p>
+    <section id="hero">
+        <span class="hero-tag reveal">> research_path: ML_&_DEVELOPMENT</span>
+        <h1 class="hero-title reveal">Fatehin Alam.</h1>
+        <h2 class="reveal" style="font-size: 2rem; color: var(--text-low); max-width: 700px;">
+            Solving complex problems through <span style="color: var(--text-high);">computational intelligence</span> and refined engineering.
+        </h2>
+
+        <div class="terminal reveal">
+            <div class="term-header">
+                <div class="term-dot" style="background: #ff5f56;"></div>
+                <div class="term-dot" style="background: #ffbd2e;"></div>
+                <div class="term-dot" style="background: #27c93f;"></div>
+            </div>
+            <div class="term-body">
+                <div><span class="t-blue">λ</span> fatehin.init()</div>
+                <div><span class="t-green">→</span> Status: Undergraduate Researcher</div>
+                <div><span class="t-green">→</span> Focus: Machine Learning, Data Analytics</div>
+                <div><span class="t-blue">λ</span> fatehin.skills</div>
+                <div><span class="t-green">→</span> [Python, Java, JS, NumPy, Scikit-learn, Odoo]</div>
+                <div><span class="t-blue">λ</span> <span style="border-left: 8px solid var(--accent); margin-left: 5px; animation: blink 1s infinite;"></span></div>
             </div>
         </div>
     </section>
 
-    <section id="work" style="display: block;">
-        <h2 class="reveal" style="margin-bottom: 4rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; letter-spacing: 5px;">[ SELECTED_PROJECTS ]</h2>
+    <section id="projects">
+        <h2 class="reveal" style="font-family: 'JetBrains Mono'; font-size: 1rem; color: var(--accent); margin-bottom: 40px;">// FEATURED_LAB_WORK</h2>
         
-        <div class="grid">
-            <div class="card reveal" data-tilt>
-                <div class="card-inner">
+        <div class="project-grid">
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80" alt="Bug Fix AI">
+                </div>
+                <div class="project-info">
                     <h3>Bug Fix AI</h3>
-                    <p>Automated debugging system utilizing NLP to parse and correct logical inconsistencies in Python and Java.</p>
+                    <p>Automated debugger and code explainer utilizing Natural Language Processing to decode complex logic.</p>
+                    <div class="tags">
+                        <span class="tag">Python</span><span class="tag">AI</span><span class="tag">Research</span>
+                    </div>
                 </div>
             </div>
-            <div class="card reveal" data-tilt>
-                <div class="card-inner">
-                    <h3>Al-Quran App</h3>
-                    <p>Digital architecture focusing on high-speed data retrieval and localized prayer-time algorithms.</p>
+
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80" alt="Al-Quran App">
+                </div>
+                <div class="project-info">
+                    <h3>Al-Quran Digital</h3>
+                    <p>Cross-platform application developed for seamless scripture access with high-fidelity UI.</p>
+                    <div class="tags">
+                        <span class="tag">Mobile</span><span class="tag">JS</span><span class="tag">UI/UX</span>
+                    </div>
                 </div>
             </div>
-            <div class="card reveal" data-tilt>
-                <div class="card-inner">
+
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80" alt="Smart Scheduler">
+                </div>
+                <div class="project-info">
                     <h3>Smart Scheduler</h3>
-                    <p>Dynamic scheduling engine using priority heuristics for academic performance optimization.</p>
+                    <p>Algorithm-driven optimization tool for managing complex academic timelines and study sessions.</p>
+                    <div class="tags">
+                        <span class="tag">Algorithms</span><span class="tag">Java</span>
+                    </div>
                 </div>
             </div>
-            <div class="card reveal" data-tilt>
-                <div class="card-inner">
+
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80" alt="Cinematic Camera">
+                </div>
+                <div class="project-info">
+                    <h3>Cinematic Camera</h3>
+                    <p>Computational photography application mimicking high-end smartphone camera processing.</p>
+                    <div class="tags">
+                        <span class="tag">App Dev</span><span class="tag">Vision</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=800&q=80" alt="True Map">
+                </div>
+                <div class="project-info">
                     <h3>True Map</h3>
-                    <p>Geospatial analysis project focusing on the visualization of complex humanitarian data points.</p>
+                    <p>Mapping utility for humanitarian data visualization, focused on the Palestine region.</p>
+                    <div class="tags">
+                        <span class="tag">Geospatial</span><span class="tag">Web</span>
+                    </div>
                 </div>
             </div>
-            <div class="card reveal" data-tilt>
-                <div class="card-inner">
-                    <h3>Cinematic Cam</h3>
-                    <p>Advanced image processing app leveraging computational photography techniques for flagship results.</p>
+
+            <div class="project-card reveal">
+                <div class="project-img">
+                    <img src="https://images.unsplash.com/photo-1472851294608-062f824d29cc?auto=format&fit=crop&w=800&q=80" alt="E-commerce">
                 </div>
-            </div>
-            <div class="card reveal" data-tilt>
-                <div class="card-inner">
-                    <h3>Commerce JS</h3>
-                    <p>Lightweight, scalable e-commerce framework built with zero-dependency vanilla JavaScript.</p>
+                <div class="project-info">
+                    <h3>E-commerce Core</h3>
+                    <p>Ultra-lightweight commerce engine built with vanilla technologies for maximum performance.</p>
+                    <div class="tags">
+                        <span class="tag">Vanilla JS</span><span class="tag">HTML/CSS</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer style="padding: 100px 10% 50px; text-align: center;">
-        <h2 class="reveal">Ready to innovate?</h2>
-        <a href="mailto:alamfatehin@gmail.com" class="reveal" style="margin-top: 2rem; display: inline-block; color: var(--accent); text-decoration: none; border: 1px solid var(--accent); padding: 1rem 3rem; font-family: 'JetBrains Mono';">CONNECT_NODE</a>
+    <section id="contact" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+        <div class="reveal">
+            <h1 style="font-size: 3rem; margin-bottom: 20px;">Let's discuss research.</h1>
+            <p style="color: var(--text-low); margin-bottom: 40px;">Currently open for collaborations in Machine Learning and AI Research.</p>
+            <a href="mailto:alamfatehin@gmail.com" style="text-decoration: none; color: var(--accent); border: 1px solid var(--accent); padding: 15px 40px; border-radius: 5px; font-family: 'JetBrains Mono'; transition: 0.3s;">
+                GET_IN_TOUCH
+            </a>
+        </div>
+    </section>
+
+    <footer style="padding: 40px 10%; text-align: center; font-size: 0.7rem; color: #333; font-family: 'JetBrains Mono';">
+        &copy; 2026 FATEHIN ALAM // CHATTOGRAM, BD
     </footer>
 
     <script>
-        // 1. Neural Network Background
-        const canvas = document.getElementById('neural-canvas');
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        let mouse = { x: null, y: null };
+        // Cursor Logic
+        const glow = document.getElementById('cursor-glow');
+        const cursor = document.getElementById('custom-cursor');
 
-        window.onmousemove = (e) => { mouse.x = e.clientX; mouse.y = e.clientY; };
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-            }
-            update() {
-                this.x += this.vx; this.y += this.vy;
-                if(this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if(this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-        }
-
-        function initCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            particles = [];
-            for(let i=0; i<100; i++) particles.push(new Particle());
-        }
-
-        function animateCanvas() {
-            ctx.clearRect(0,0,canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.update();
-                ctx.fillStyle = '#00f2ff';
-                ctx.beginPath(); ctx.arc(p.x, p.y, 1.5, 0, Math.PI*2); ctx.fill();
-                
-                particles.forEach(p2 => {
-                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
-                    if(dist < 150) {
-                        ctx.strokeStyle = `rgba(0, 242, 255, ${1 - dist/150})`;
-                        ctx.lineWidth = 0.5;
-                        ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
-                    }
-                });
-            });
-            requestAnimationFrame(animateCanvas);
-        }
-
-        initCanvas(); animateCanvas();
-        window.onresize = initCanvas;
-
-        // 2. Custom Cursor
-        const ring = document.getElementById('cursor-ring');
-        const dot = document.getElementById('cursor-dot');
-        window.addEventListener('mousemove', (e) => {
-            ring.style.left = e.clientX + 'px'; ring.style.top = e.clientY + 'px';
-            dot.style.left = e.clientX + 'px'; dot.style.top = e.clientY + 'px';
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        // 3. 3D Tilt Logic
-        document.querySelectorAll('.card').forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = (e.clientX - rect.left) / rect.width - 0.5;
-                const y = (e.clientY - rect.top) / rect.height - 0.5;
-                card.querySelector('.card-inner').style.transform = `rotateX(${y * -20}deg) rotateY(${x * 20}deg)`;
-            });
-            card.addEventListener('mouseleave', () => {
-                card.querySelector('.card-inner').style.transform = `rotateX(0) rotateY(0)`;
-            });
-        });
-
-        // 4. Reveal Scroll
+        // Scroll Animation Logic
         function reveal() {
-            document.querySelectorAll('.reveal').forEach(el => {
-                if(el.getBoundingClientRect().top < window.innerHeight - 100) el.classList.add('active');
-            });
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    reveals[i].classList.add("active");
+                }
+            }
         }
-        window.addEventListener('scroll', reveal);
-        reveal();
+
+        window.addEventListener("scroll", reveal);
+        reveal(); // Initial call
     </script>
 </body>
-</html>
+                        </html>
